@@ -95,6 +95,7 @@ type Options struct {
 	ProtectedResource                string `flag:"resource" cfg:"resource" env:"OAUTH2_PROXY_RESOURCE"`
 	ValidateURL                      string `flag:"validate-url" cfg:"validate_url" env:"OAUTH2_PROXY_VALIDATE_URL"`
 	Scope                            string `flag:"scope" cfg:"scope" env:"OAUTH2_PROXY_SCOPE"`
+	Prompt                           string `flag:"prompt" cfg:"prompt" env:"OAUTH2_PROXY_PROMPT"`
 	ApprovalPrompt                   string `flag:"approval-prompt" cfg:"approval_prompt" env:"OAUTH2_PROXY_APPROVAL_PROMPT"`
 
 	// Configuration values for logging
@@ -163,6 +164,7 @@ func NewOptions() *Options {
 		PassHostHeader:                   true,
 		SetAuthorization:                 false,
 		PassAuthorization:                false,
+		Prompt:                           "",
 		ApprovalPrompt:                   "force",
 		InsecureOIDCAllowUnverifiedEmail: false,
 		SkipOIDCDiscovery:                false,
@@ -384,6 +386,7 @@ func parseProviderInfo(o *Options, msgs []string) []string {
 		Scope:          o.Scope,
 		ClientID:       o.ClientID,
 		ClientSecret:   o.ClientSecret,
+		Prompt:         o.Prompt,
 		ApprovalPrompt: o.ApprovalPrompt,
 	}
 	p.LoginURL, msgs = parseURL(o.LoginURL, "login", msgs)
