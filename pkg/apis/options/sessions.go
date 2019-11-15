@@ -8,6 +8,7 @@ type SessionOptions struct {
 	Cipher *encryption.Cipher
 	CookieStoreOptions
 	RedisStoreOptions
+	PostgresqlStoreOptions
 }
 
 // CookieSessionStoreType is used to indicate the CookieSessionStore should be
@@ -27,4 +28,13 @@ type RedisStoreOptions struct {
 	UseSentinel            bool     `flag:"redis-use-sentinel" cfg:"redis_use_sentinel" env:"OAUTH2_PROXY_REDIS_USE_SENTINEL"`
 	SentinelMasterName     string   `flag:"redis-sentinel-master-name" cfg:"redis_sentinel_master_name" env:"OAUTH2_PROXY_REDIS_SENTINEL_MASTER_NAME"`
 	SentinelConnectionURLs []string `flag:"redis-sentinel-connection-urls" cfg:"redis_sentinel_connection_urls" env:"OAUTH2_PROXY_REDIS_SENTINEL_CONNECTION_URLS"`
+}
+
+// PostgresqlSessionStoreType is used to indicate the PostgresqlSessionStore should be
+// used for storing sessions.
+var PostgresqlSessionStoreType = "postgres"
+
+// PostgresqlStoreOptions contains configuration options for the PostgresqlSessionStore.
+type PostgresqlStoreOptions struct {
+	PostgresqlConnectionURL string `flag:"postgres-connection-url" cfg:"postgres_connection_url" env:"OAUTH2_PROXY_POSTGRES_CONNECTION_URL"`
 }

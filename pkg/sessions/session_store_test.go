@@ -20,6 +20,7 @@ import (
 	"github.com/pusher/oauth2_proxy/pkg/sessions"
 	sessionscookie "github.com/pusher/oauth2_proxy/pkg/sessions/cookie"
 	"github.com/pusher/oauth2_proxy/pkg/sessions/redis"
+	"github.com/pusher/oauth2_proxy/pkg/sessions/postgresql"
 	"github.com/pusher/oauth2_proxy/pkg/sessions/utils"
 )
 
@@ -427,6 +428,27 @@ var _ = Describe("NewSessionStore", func() {
 			ss, err := sessions.NewSessionStore(opts, cookieOpts)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(ss).To(BeAssignableToTypeOf(&redis.SessionStore{}))
+		})
+
+		Context("the redis.SessionStore", func() {
+			RunSessionTests(true)
+		})
+	})
+
+	Context("with type 'postgres'", func() {
+		BeforeEach(func() {
+			opts.Type = options.PostgresqlSessionStoreType
+			opts.RedisConnectionURL = "postgresql:/localhost:5432/oauth2_proxy"
+		})
+
+		AfterEach(func() {
+			mr.Close()
+		})
+
+		It("creates a redis.SessionStore", func() {
+			ss, err := sessions.NewSessionStore(opts, cookieOpts)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(ss).To(BeAssignableToTypeOf(&postgresql.SessionStore{}))
 		})
 
 		Context("the redis.SessionStore", func() {

@@ -6,6 +6,7 @@ import (
 	"github.com/pusher/oauth2_proxy/pkg/apis/options"
 	"github.com/pusher/oauth2_proxy/pkg/apis/sessions"
 	"github.com/pusher/oauth2_proxy/pkg/sessions/cookie"
+	"github.com/pusher/oauth2_proxy/pkg/sessions/postgresql"
 	"github.com/pusher/oauth2_proxy/pkg/sessions/redis"
 )
 
@@ -16,6 +17,8 @@ func NewSessionStore(opts *options.SessionOptions, cookieOpts *options.CookieOpt
 		return cookie.NewCookieSessionStore(opts, cookieOpts)
 	case options.RedisSessionStoreType:
 		return redis.NewRedisSessionStore(opts, cookieOpts)
+	case options.PostgresqlSessionStoreType:
+		return postgresql.NewPostgresqlSessionStore(opts, cookieOpts)
 	default:
 		return nil, fmt.Errorf("unknown session store type '%s'", opts.Type)
 	}
